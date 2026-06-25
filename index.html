@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VoltEdge AI Electronics Learning Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="noise"></div>
+    <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+    <header class="site-nav glass">
+      <a class="brand" href="#home" aria-label="VoltEdge home">
+        <span class="brand-orb">V</span>
+        <span>VoltEdge AI</span>
+      </a>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#modules" data-requires-login="true">Modules</a>
+        <a href="#virtual-lab" data-requires-login="true">Virtual Lab</a>
+        <a href="#ai-tutor" data-requires-login="true">AI Tutor</a>
+        <a href="#quiz" data-requires-login="true">Quiz Arena</a>
+        <a href="#dashboard" data-requires-login="true">Dashboard</a>
+      </nav>
+      <button class="ghost-btn" data-open-login="student">Login</button>
+    </header>
+
+    <main>
+      <section id="home" class="hero section">
+        <div id="hero-3d"></div>
+        <div class="hero-content reveal">
+          <span class="kicker">AI-powered engineering education</span>
+          <h1>Master Electronics Through AI-Powered Interactive Learning</h1>
+          <p>
+            Explore 3D components, run virtual lab experiments, visualize signals,
+            ask an AI tutor, and track mastery from one premium learning cockpit.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-btn" href="#dashboard" data-requires-login="true">Start Learning</a>
+            <a class="secondary-btn" href="#virtual-lab" data-requires-login="true">Explore Virtual Lab</a>
+          </div>
+        </div>
+        <div class="counter-grid reveal">
+          <div class="metric-card glass tilt"><strong data-count="12840">0</strong><span>Students Enrolled</span></div>
+          <div class="metric-card glass tilt"><strong data-count="68420">0</strong><span>Experiments Completed</span></div>
+          <div class="metric-card glass tilt"><strong data-count="93215">0</strong><span>Quiz Attempts</span></div>
+          <div class="metric-card glass tilt"><strong data-count="21400">0</strong><span>Learning Hours</span></div>
+        </div>
+      </section>
+
+      <section id="dashboard" class="section" data-protected="true">
+        <div class="section-heading reveal">
+          <span class="kicker">Student command center</span>
+          <h2>Learning Progress Dashboard</h2>
+          <p id="dashboard-intro">Login to track quiz performance, completed experiments, recommended topics, weak areas, and AI study suggestions.</p>
+        </div>
+        <div class="dashboard-lock glass" id="dashboard-lock">
+          <h3>Login required to view student progress</h3>
+          <p>Your dashboard starts empty and updates only after you solve quizzes, run experiments, and use the AI tutor.</p>
+          <button class="primary-btn" data-open-login="student">Login to Start Tracking</button>
+        </div>
+        <div class="dashboard-grid reveal" id="dashboard-content">
+          <article class="glass dashboard-card progress-card tilt">
+            <span class="card-label">Learning Progress</span>
+            <div class="ring" id="progress-ring" style="--value: 0"><strong id="progress-percent">0%</strong></div>
+            <p id="progress-copy">Complete learning activities to generate your progress score.</p>
+          </article>
+          <article class="glass dashboard-card tilt">
+            <span class="card-label">Recent Activities</span>
+            <ul class="activity-list" id="activity-list">
+              <li>No activity yet. Start a lab, quiz, or AI tutor session.</li>
+            </ul>
+          </article>
+          <article class="glass dashboard-card tilt">
+            <span class="card-label">Quiz Performance</span>
+            <canvas id="quiz-chart" height="190"></canvas>
+          </article>
+          <article class="glass dashboard-card tilt">
+            <span class="card-label">AI Study Suggestions</span>
+            <p class="suggestion" id="study-suggestion">Login and complete activities to receive personalized suggestions.</p>
+            <div class="badge-row">
+              <span id="badge-beginner">Beginner</span><span id="badge-intermediate">Intermediate</span><span id="badge-advanced">Advanced</span><span id="badge-expert">Electronics Expert</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="modules" class="section" data-protected="true">
+        <div class="section-heading reveal">
+          <span class="kicker">Module 1</span>
+          <h2>3D Electronic Components Explorer</h2>
+          <p>Rotate, zoom, pan, explode, label, and learn components with AI-style explanations and voice output.</p>
+        </div>
+        <div class="explorer-grid reveal">
+          <div class="viewer glass">
+            <div id="component-3d"></div>
+            <div class="viewer-toolbar">
+              <button data-view="zoomIn">+</button>
+              <button data-view="zoomOut">-</button>
+              <button data-view="pan">Pan</button>
+              <button id="explode-toggle">Explode</button>
+            </div>
+          </div>
+          <aside class="glass info-panel">
+            <label>Component</label>
+            <select id="component-select">
+              <option value="resistor">Resistor</option>
+              <option value="capacitor">Capacitor</option>
+              <option value="diode">Diode</option>
+              <option value="led">LED</option>
+              <option value="transistor">Transistor</option>
+              <option value="ic">IC Chip</option>
+              <option value="transformer">Transformer</option>
+              <option value="relay">Relay</option>
+            </select>
+            <div id="component-labels" class="label-cloud"></div>
+            <h3 id="component-title">Resistor</h3>
+            <p id="component-copy"></p>
+            <div class="mini-tabs">
+              <button class="active" data-info="principle">Principle</button>
+              <button data-info="applications">Applications</button>
+              <button data-info="interview">Interview</button>
+            </div>
+            <button class="secondary-btn full" id="speak-component">Voice Explanation</button>
+          </aside>
+        </div>
+      </section>
+
+      <section id="virtual-lab" class="section" data-protected="true">
+        <div class="section-heading reveal">
+          <span class="kicker">Module 2</span>
+          <h2>AI Virtual Electronics Lab</h2>
+          <p>Drag components, run experiments, watch glowing current flow, and receive AI diagnostics.</p>
+        </div>
+        <div class="lab-grid reveal">
+          <aside class="glass lab-panel">
+            <h3>Components</h3>
+            <div class="part-bin">
+              <button draggable="true" data-part="battery">Battery</button>
+              <button draggable="true" data-part="bulb">Bulb</button>
+              <button draggable="true" data-part="led">LED</button>
+              <button draggable="true" data-part="diode">Diode</button>
+              <button draggable="true" data-part="resistor">Resistor</button>
+              <button draggable="true" data-part="capacitor">Capacitor</button>
+              <button draggable="true" data-part="ammeter">Ammeter</button>
+              <button draggable="true" data-part="voltmeter">Voltmeter</button>
+            </div>
+            <label>Experiment</label>
+            <select id="experiment-select">
+              <option>Forward Bias Diode</option>
+              <option>Reverse Bias Diode</option>
+              <option>Ohm's Law Verification</option>
+              <option>Series Circuit</option>
+              <option>Parallel Circuit</option>
+              <option>RC Charging Circuit</option>
+              <option>RC Discharging Circuit</option>
+              <option>Kirchhoff Voltage Law</option>
+              <option>Kirchhoff Current Law</option>
+              <option>LED Brightness Control</option>
+            </select>
+            <label>Voltage <span id="voltage-read">6 V</span></label>
+            <input id="voltage-range" type="range" min="1" max="12" value="6">
+            <label>Resistance <span id="resistance-read">220 ohm</span></label>
+            <input id="resistance-range" type="range" min="50" max="1000" value="220">
+          </aside>
+          <div class="lab-board glass" id="lab-board">
+            <canvas id="lab-canvas" width="1000" height="600"></canvas>
+          </div>
+          <aside class="glass lab-panel">
+            <h3>AI Lab Assistant</h3>
+            <p id="lab-ai">Select an experiment to see the AI explanation and expected observations.</p>
+            <button class="primary-btn full" id="run-experiment">Run Experiment</button>
+            <button class="secondary-btn full" id="clear-lab">Clear Board</button>
+          </aside>
+        </div>
+      </section>
+
+      <section id="signals" class="section" data-protected="true">
+        <div class="section-heading reveal">
+          <span class="kicker">Module 3</span>
+          <h2>Oscilloscope & Signal Visualizer</h2>
+          <p>Real-time waveforms with glowing traces, animated grid, and intuitive signal controls.</p>
+        </div>
+        <div class="scope-grid reveal">
+          <div class="scope glass">
+            <canvas id="scope-canvas" width="1100" height="520"></canvas>
+          </div>
+          <aside class="glass lab-panel">
+            <label>Waveform</label>
+            <select id="wave-type">
+              <option value="sine">Sine Wave</option>
+              <option value="square">Square Wave</option>
+              <option value="triangle">Triangle Wave</option>
+              <option value="pwm">PWM Wave</option>
+            </select>
+            <label>Frequency <span id="freq-read">5 Hz</span></label>
+            <input id="freq" type="range" min="1" max="35" value="5">
+            <label>Amplitude <span id="amp-read">2 V</span></label>
+            <input id="amp" type="range" min="1" max="5" value="2">
+            <label>Phase <span id="phase-read">0 deg</span></label>
+            <input id="phase" type="range" min="0" max="360" value="0">
+            <p id="scope-ai" class="ai-note">Increasing frequency creates more cycles in the same time window.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section id="quiz" class="section" data-protected="true">
+        <div class="section-heading reveal">
+          <span class="kicker">Module 4</span>
+          <h2>Quiz Arena</h2>
+          <p>MCQs, circuit identification, match-style prompts, timer, score, badges, and AI feedback.</p>
+        </div>
+        <div class="quiz-grid reveal">
+          <div class="quiz-card glass">
+            <div class="quiz-top">
+              <span id="quiz-timer">60s</span>
+              <div class="quiz-progress"><span id="quiz-bar"></span></div>
+              <strong id="quiz-score">0</strong>
+            </div>
+            <h3 id="quiz-question"></h3>
+            <div id="quiz-options" class="quiz-options"></div>
+            <p id="quiz-feedback" class="ai-note"></p>
+            <button class="primary-btn" id="next-quiz">Next Challenge</button>
+          </div>
+          <aside class="glass dashboard-card">
+            <span class="card-label">Achievements</span>
+            <div class="achievement-grid">
+              <span>Fast Solver</span>
+              <span>Lab Ready</span>
+              <span>Signal Analyst</span>
+              <span>AI Scholar</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="ai-tutor" class="section" data-protected="true">
+        <div class="section-heading reveal">
+          <span class="kicker">Module 5</span>
+          <h2>AI Tutor</h2>
+          <p>Ask electronics questions, request diagram suggestions, and listen to spoken explanations.</p>
+        </div>
+        <div class="tutor-grid reveal">
+          <div class="chat glass" id="chat"></div>
+          <aside class="glass lab-panel">
+            <h3>Ask AI Tutor</h3>
+            <div class="prompt-chips">
+              <button>What is a transistor?</button>
+              <button>Explain modulation.</button>
+              <button>Difference between AM and FM?</button>
+              <button>What is an op-amp?</button>
+            </div>
+            <textarea id="tutor-input" rows="5" placeholder="Ask your electronics question..."></textarea>
+            <button class="primary-btn full" id="ask-ai">Send Message</button>
+            <button class="secondary-btn full" id="voice-in">Voice Input</button>
+            <button class="secondary-btn full" id="voice-out">Voice Output</button>
+          </aside>
+        </div>
+      </section>
+
+      <section id="analytics" class="section" data-protected="true">
+        <div class="section-heading reveal">
+          <span class="kicker">Progress analytics</span>
+          <h2>Personalized Skill Report</h2>
+          <p>Realistic mastery analytics based on quiz accuracy, experiments completed, tutor usage, and concept risk.</p>
+        </div>
+        <div class="analytics-grid reveal">
+          <article class="glass dashboard-card">
+            <span class="card-label">Weekly Learning Trend</span>
+            <canvas id="weekly-chart" height="210"></canvas>
+          </article>
+          <article class="glass dashboard-card">
+            <span class="card-label">Competency Breakdown</span>
+            <canvas id="topic-chart" height="210"></canvas>
+          </article>
+          <article class="glass dashboard-card skill-report-card">
+            <span class="card-label">Readiness Snapshot</span>
+            <div class="readiness-score" id="readiness-score">0%</div>
+            <p id="analytics-summary">Login and complete activities to generate a realistic report.</p>
+            <h3>Priority Concepts</h3>
+            <ul class="risk-list" id="risk-list">
+              <li>Start with Ohm's law and diode biasing.</li>
+            </ul>
+            <h3>Next Study Plan</h3>
+            <ol class="study-plan" id="study-plan">
+              <li>Login to unlock your study plan.</li>
+            </ol>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <section id="auth" class="login-modal" aria-hidden="true">
+      <div class="modal-backdrop" data-close-login="true"></div>
+      <div class="modal-panel glass">
+        <button class="modal-close" data-close-login="true" aria-label="Close login">x</button>
+        <div class="section-heading">
+          <span class="kicker">Secure access</span>
+          <h2>Login Credentials</h2>
+          <p>Use these demo credentials to enter the student dashboard and start performance tracking.</p>
+        </div>
+        <div class="credential-strip">
+          <div><strong>Student</strong><span>Reg No: 23481A0409</span><span>Password: student123</span></div>
+          <div><strong>Faculty</strong><span>ID: FAC-ECE-102</span><span>Password: faculty123</span></div>
+        </div>
+        <div class="auth-grid">
+          <form class="auth-card glass" id="student-login">
+            <h3>Student Login</h3>
+            <label>Registration Number</label>
+            <input id="student-reg" placeholder="23481A0409" autocomplete="username">
+            <small id="reg-message">Format: 23481A0409</small>
+            <label>Password</label>
+            <input id="student-password" type="password" placeholder="student123" autocomplete="current-password">
+            <div class="auth-row">
+              <label class="check"><input type="checkbox"> Remember Me</label>
+              <a href="#auth">Forgot Password?</a>
+            </div>
+            <button class="primary-btn" type="submit">Enter Student Dashboard</button>
+          </form>
+          <form class="auth-card glass" id="faculty-login">
+            <h3>Faculty Login</h3>
+            <label>Faculty ID</label>
+            <input id="faculty-id" placeholder="FAC-ECE-102" autocomplete="username">
+            <label>Password</label>
+            <input id="faculty-password" type="password" placeholder="faculty123" autocomplete="current-password">
+            <button class="primary-btn" type="submit">Open Faculty Console</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
